@@ -7,10 +7,23 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',
+		publicPath: '/',
 	},
 	mode: 'development',
 	resolve: {
 		extensions: ['.js', '.jsx'],
+		alias: {
+			'@components': path.resolve(__dirname, 'src/components/'),
+			'@containers': path.resolve(__dirname, 'src/containers/'),
+			'@pages': path.resolve(__dirname, 'src/pages/'),
+      		'@styles': path.resolve(__dirname, 'src/styles/'),
+			'@icons': path.resolve(__dirname, 'public/assets/icons/'),
+			'@logos': path.resolve(__dirname, 'public/assets/logos/'),
+			'@routes': path.resolve(__dirname, 'src/routes/'),
+			'@hooks': path.resolve(__dirname, 'src/hooks/'),
+			'@context': path.resolve(__dirname, 'src/context/'),
+
+		},
 	},
 	module: {
 		rules: [
@@ -41,13 +54,16 @@ module.exports = {
 				],
 			},
 			{	//carga las imagenes
-				test: /\.(png|jpg|svg|jpeg|webp)$/,
-				type: 'asset/resource',
-				generator: {
-					filename: 'assets/pictures/[hash][ext]',
-				}
-			}
-		]
+				//npm install --save-dev file-loader
+				test: /\.(png|jpg|svg|jp(e*)g|webp|gif)$/i,
+				use: [
+					{
+					  loader: 'file-loader',
+					  options: { name: 'assets/pictures/[hash].[ext]' },
+					},
+				],
+			},
+		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -63,6 +79,7 @@ module.exports = {
 			// lo puedes llamar public o dist
 		  directory: path.join(__dirname, 'dist'),
 		},
+		historyApiFallback: true,
 		compress: true,
 		port: 9000,
 	},
