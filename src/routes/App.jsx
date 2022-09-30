@@ -33,7 +33,7 @@ function App() {
   const initialState = useInitialState();
   return (
     <AppContext.Provider value={initialState}>
-      <BrowserRouter>
+      <BrowserRouter basename="/alvarez141">
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
